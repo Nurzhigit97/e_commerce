@@ -6,6 +6,7 @@ class ProductModel extends ProductEntity {
     required super.id,
     required super.title,
     required super.description,
+    required super.category,
     required super.image,
     required super.price,
     required super.rating,
@@ -16,6 +17,7 @@ class ProductModel extends ProductEntity {
       id: json['id'],
       title: json['title'],
       description: json['description'],
+      category: json['category'],
       image: json['image'],
       price:
           (json['price'] is int)
@@ -30,8 +32,10 @@ class ProductModel extends ProductEntity {
       'id': id,
       'title': title,
       'description': description,
+      'category': category,
       'image': image,
       'price': price,
+      'rating': rating,
     };
   }
 }

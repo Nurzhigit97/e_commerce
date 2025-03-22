@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/features/product/domain/usecases/get_products_usecase.dart';
 import 'package:e_commerce/features/product/presentation/cubit/product_cubit.dart';
 import 'package:e_commerce/features/product/presentation/cubit/product_state.dart';
+import 'package:e_commerce/features/product/presentation/widgets/category_list.dart';
 import 'package:e_commerce/features/product/presentation/widgets/product_card.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_error_widget.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_input_widget.dart';
@@ -36,11 +37,33 @@ class ProductView extends StatelessWidget {
         slivers: [
           const SliverAppBar(title: Text('Товары'), floating: true),
           SliverToBoxAdapter(
-            child: AppInputWidget(
-              filledColor: Theme.of(context).colorScheme.surface,
-              hintText: 'Поиск...',
-              onChanged:
-                  (value) => context.read<ProductCubit>().searchProducts(value),
+            child: Column(
+              children: [
+                AppInputWidget(
+                  filledColor: Theme.of(context).colorScheme.surface,
+                  hintText: 'Поиск...',
+                  onChanged:
+                      (value) =>
+                          context.read<ProductCubit>().searchProducts(value),
+                ),
+                const SizedBox(height: 12),
+                BlocBuilder<ProductCubit, ProductState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      loaded:
+                          (products, selectedCategory) => CategoryList(
+                            categories: context.read<ProductCubit>().categories,
+                            selectedCategory: selectedCategory,
+                            onCategorySelected:
+                                (category) => context
+                                    .read<ProductCubit>()
+                                    .selectCategory(category),
+                          ),
+                      orElse: () => const SizedBox(),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 10)),
@@ -50,7 +73,7 @@ class ProductView extends StatelessWidget {
                 loading:
                     () => const SliverToBoxAdapter(child: AppLoaderWidget()),
                 loaded:
-                    (products) => SliverGrid(
+                    (products, selectedCategory) => SliverGrid(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) =>
                             ProductCard(product: products[index]),

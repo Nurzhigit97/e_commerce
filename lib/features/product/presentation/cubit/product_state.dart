@@ -7,7 +7,10 @@ part 'product_state.freezed.dart';
 class ProductState with _$ProductState {
   const factory ProductState.initial() = _Initial;
   const factory ProductState.loading() = _Loading;
-  const factory ProductState.loaded(List<ProductEntity> products) = _Loaded;
+  const factory ProductState.loaded({
+    required List<ProductEntity> products,
+    String? selectedCategory,
+  }) = _Loaded;
   const factory ProductState.error(String message) = _Error;
   const factory ProductState.empty() = _Empty;
 }
