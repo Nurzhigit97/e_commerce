@@ -25,12 +25,12 @@ class HomeNavigator extends StatelessWidget {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_outlined),
                   activeIcon: Icon(Icons.home),
-                  label: 'Products',
+                  label: 'Товары',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.shopping_cart_outlined),
                   activeIcon: Icon(Icons.shopping_cart),
-                  label: 'Cart',
+                  label: 'Корзина',
                 ),
               ],
             ),
