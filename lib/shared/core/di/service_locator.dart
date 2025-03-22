@@ -32,7 +32,7 @@ class ServiceLocator {
     _cartDataSource = CartRemoteDataSource(_dio);
 
     // Cubits
-    _productCubit = ProductCubit(_productDataSource)..getProducts();
+    _productCubit = ProductCubit(_productDataSource);
     _cartCubit = CartCubit(_cartDataSource);
   }
 

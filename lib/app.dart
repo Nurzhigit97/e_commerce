@@ -1,7 +1,5 @@
-import 'package:e_commerce/features/home_navigator.dart';
 import 'package:e_commerce/shared/core/resources/blocs/navigation/cubit/navigation_cubit.dart';
 import 'package:e_commerce/shared/routes/app_routes.dart';
-
 import 'package:e_commerce/shared/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +17,6 @@ class App extends StatelessWidget {
         builder: EasyLoading.init(),
         debugShowCheckedModeBanner: false,
         theme: theme,
-        home: const HomeNavigator(),
         routes: AppRouter.routes,
         initialRoute: AppRouter.home,
       ),

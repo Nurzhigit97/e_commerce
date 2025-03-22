@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce/features/cart/data/models/cart_model.dart';
-import 'package:e_commerce/features/product/data/models/product_model.dart';
 
 class CartRemoteDataSource {
   final Dio _dio;
@@ -20,7 +19,7 @@ class CartRemoteDataSource {
     }
   }
 
-  Future<void> addToCart(ProductModel product) async {
+  Future<void> addToCart(CartModel product) async {
     try {
       await _dio.post('/cart', data: product.toJson());
     } on DioException catch (e) {
@@ -28,7 +27,7 @@ class CartRemoteDataSource {
     }
   }
 
-  Future<void> removeFromCart(ProductModel product) async {
+  Future<void> removeFromCart(CartModel product) async {
     try {
       await _dio.delete('/cart/${product.id}');
     } on DioException catch (e) {

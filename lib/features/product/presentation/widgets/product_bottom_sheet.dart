@@ -1,4 +1,7 @@
+import 'package:e_commerce/features/cart/data/models/cart_model.dart';
+import 'package:e_commerce/features/cart/data/models/cart_product_model.dart';
 import 'package:e_commerce/features/product/data/models/product_model.dart';
+import 'package:e_commerce/shared/core/di/service_locator.dart';
 import 'package:flutter/material.dart';
 
 void showProductDetails(BuildContext context, ProductModel product) {
@@ -71,7 +74,16 @@ class ProductBottomSheet extends StatelessWidget {
               width: double.infinity,
               child: FilledButton(
                 onPressed: () {
-                  // TODO: Add to cart functionality
+                  ServiceLocator().cartCubit.add(
+                    CartModel(
+                      id: product.id,
+                      userId: 1,
+                      date: DateTime.now(),
+                      products: [
+                        CartProductModel(productId: product.id, quantity: 1),
+                      ],
+                    ),
+                  );
                   Navigator.pop(context);
                 },
                 child: const Text('Добавить в корзину'),
