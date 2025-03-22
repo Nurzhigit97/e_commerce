@@ -1,18 +1,15 @@
-import 'package:auto_route/auto_route.dart';
-import 'app_routes.gr.dart';
+import 'package:e_commerce/features/cart/presentation/pages/cart_page.dart';
+import 'package:e_commerce/features/home_navigator.dart';
+import 'package:e_commerce/features/product/presentation/pages/product_page.dart';
 
-@AutoRouterConfig(replaceInRouteName: 'Page,Route')
-class AppRouter extends RootStackRouter {
-  AppRouter();
-  @override
-  List<AutoRoute> get routes => [
-    AutoRoute(
-      page: HomeNavigator.page,
-      initial: true,
-      children: [
-        AutoRoute(page: ProductRoute.page, initial: true),
-        AutoRoute(page: CartRoute.page),
-      ],
-    ),
-  ];
+class AppRouter {
+  static const String home = '/home';
+  static const String cart = '/cart';
+  static const String product = '/product';
+
+  static final routes = {
+    home: (context) => const HomeNavigator(),
+    cart: (context) => const CartPage(),
+    product: (context) => const ProductPage(),
+  };
 }

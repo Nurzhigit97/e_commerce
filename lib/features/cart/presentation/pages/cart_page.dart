@@ -1,5 +1,4 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce/features/cart/data/datasources/remote_cart_datasource.dart';
+import 'package:e_commerce/features/cart/data/datasource/remote_cart_datasource.dart';
 import 'package:e_commerce/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce/features/cart/presentation/cubit/cart_state.dart';
 import 'package:e_commerce/features/cart/presentation/widgets/cart_card.dart';
@@ -9,7 +8,6 @@ import 'package:e_commerce/shared/core/resources/widgets/app_loader_widget.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-@RoutePage()
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
@@ -24,21 +22,21 @@ class CartPage extends StatelessWidget {
             const SliverAppBar(title: Text('Корзина'), floating: true),
             BlocBuilder<CartCubit, CartState>(
               builder: (context, state) {
-                if (state is CartLoading) {
-                  return const SliverToBoxAdapter(child: AppLoaderWidget());
-                } else if (state is CartError) {
-                  return SliverToBoxAdapter(
-                    child: AppErrorWidget(message: state.message),
-                  );
-                } else if (state is CartLoaded) {
-                  return SliverList(
+                return switch (state) {
+                  CartLoading() => const SliverToBoxAdapter(
+                    child: AppLoaderWidget(),
+                  ),
+                  CartError(message: var message) => SliverToBoxAdapter(
+                    child: AppErrorWidget(message: message),
+                  ),
+                  CartLoaded(cart: var cart) => SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) => CartCard(cart: state.cart[index]),
-                      childCount: state.cart.length,
+                      (context, index) => CartCard(cart: cart[index]),
+                      childCount: cart.length,
                     ),
-                  );
-                }
-                return const SliverToBoxAdapter(child: SizedBox());
+                  ),
+                  _ => const SliverToBoxAdapter(child: SizedBox()),
+                };
               },
             ),
           ],

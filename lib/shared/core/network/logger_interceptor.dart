@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-// ignore: depend_on_referenced_packages
 import 'package:logging/logging.dart';
 
 class LoggerInterceptor extends Interceptor {

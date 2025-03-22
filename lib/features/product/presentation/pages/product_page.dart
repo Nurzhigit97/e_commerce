@@ -1,17 +1,14 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce/features/product/data/datasources/remote_product_datasource.dart';
 import 'package:e_commerce/features/product/presentation/cubit/product_cubit.dart';
 import 'package:e_commerce/features/product/presentation/cubit/product_state.dart';
 import 'package:e_commerce/features/product/presentation/widgets/category_list.dart';
 import 'package:e_commerce/features/product/presentation/widgets/product_card.dart';
-import 'package:e_commerce/shared/core/network/dio_network.dart';
+import 'package:e_commerce/shared/core/di/service_locator.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_error_widget.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_input_widget.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-@RoutePage()
 class ProductPage extends StatelessWidget {
   const ProductPage({super.key});
 
@@ -19,10 +16,7 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create:
-            (_) =>
-                ProductCubit(ProductRemoteDataSource(DioNetwork.dio))
-                  ..getProducts(),
+        create: (_) => ServiceLocator().productCubit,
         child: const ProductView(),
       ),
     );
@@ -52,9 +46,6 @@ class ProductView extends StatelessWidget {
                 const SizedBox(height: 12),
                 BlocBuilder<ProductCubit, ProductState>(
                   builder: (context, state) {
-                    if (state is ProductLoading) {
-                      return const AppLoaderWidget();
-                    }
                     return CategoryList(
                       categories: context.read<ProductCubit>().categories,
                       selectedCategory:
@@ -74,18 +65,17 @@ class ProductView extends StatelessWidget {
           const SliverToBoxAdapter(child: SizedBox(height: 10)),
           BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {
-              if (state is ProductLoading) {
-                return const SliverToBoxAdapter(child: AppLoaderWidget());
-              } else if (state is ProductError) {
-                return SliverToBoxAdapter(
-                  child: AppErrorWidget(message: state.message),
-                );
-              } else if (state is ProductLoaded) {
-                return SliverGrid(
+              return switch (state) {
+                ProductLoading() => const SliverToBoxAdapter(
+                  child: AppLoaderWidget(),
+                ),
+                ProductError(message: var message) => SliverToBoxAdapter(
+                  child: AppErrorWidget(message: message),
+                ),
+                ProductLoaded(products: var products) => SliverGrid(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) =>
-                        ProductCard(product: state.products[index]),
-                    childCount: state.products.length,
+                    (context, index) => ProductCard(product: products[index]),
+                    childCount: products.length,
                   ),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -93,9 +83,9 @@ class ProductView extends StatelessWidget {
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
                   ),
-                );
-              }
-              return const SliverToBoxAdapter(child: SizedBox());
+                ),
+                _ => const SliverToBoxAdapter(child: SizedBox()),
+              };
             },
           ),
         ],

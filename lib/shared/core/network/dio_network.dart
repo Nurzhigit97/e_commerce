@@ -16,7 +16,10 @@ class DioNetwork {
   );
 
   static Dio get dio {
-    _dio ??= _instance?._createDio();
+    if (_dio == null) {
+      _instance = DioNetwork._internal();
+      _dio = _instance!._createDio();
+    }
     return _dio!;
   }
 
