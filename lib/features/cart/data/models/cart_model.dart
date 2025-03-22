@@ -1,19 +1,24 @@
 import 'package:e_commerce/features/cart/data/models/cart_product_model.dart';
-import 'package:e_commerce/features/cart/domain/entities/cart_entity.dart';
+import 'package:equatable/equatable.dart';
 
-class CartModel extends CartEntity {
+class CartModel extends Equatable {
+  final int id;
+  final int userId;
+  final DateTime date;
+  final List<CartProductModel> products;
+
   const CartModel({
-    required super.id,
-    required super.userId,
-    required super.date,
-    required super.products,
+    required this.id,
+    required this.userId,
+    required this.date,
+    required this.products,
   });
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     return CartModel(
       id: json['id'],
-      userId: json['userId'],
       date: DateTime.parse(json['date']),
+      userId: json['userId'],
       products:
           (json['products'] as List)
               .map((product) => CartProductModel.fromJson(product))
@@ -26,10 +31,10 @@ class CartModel extends CartEntity {
       'id': id,
       'userId': userId,
       'date': date.toIso8601String(),
-      'products':
-          products
-              .map((product) => (product as CartProductModel).toJson())
-              .toList(),
+      'products': products.map((product) => (product).toJson()).toList(),
     };
   }
+
+  @override
+  List<Object?> get props => [id, userId, date, products];
 }

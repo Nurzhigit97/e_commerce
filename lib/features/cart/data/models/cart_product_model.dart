@@ -1,7 +1,10 @@
-import 'package:e_commerce/features/cart/domain/entities/cart_product_entity.dart';
+import 'package:equatable/equatable.dart';
 
-class CartProductModel extends CartProductEntity {
-  const CartProductModel({required super.productId, required super.quantity});
+class CartProductModel extends Equatable {
+  final int productId;
+  final int quantity;
+
+  const CartProductModel({required this.productId, required this.quantity});
 
   factory CartProductModel.fromJson(Map<String, dynamic> json) {
     return CartProductModel(
@@ -13,4 +16,7 @@ class CartProductModel extends CartProductEntity {
   Map<String, dynamic> toJson() {
     return {'productId': productId, 'quantity': quantity};
   }
+
+  @override
+  List<Object?> get props => [productId, quantity];
 }

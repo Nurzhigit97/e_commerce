@@ -1,13 +1,14 @@
-import 'package:e_commerce/features/product/domain/entities/rating_entity.dart';
+import 'package:equatable/equatable.dart';
 
-class RatingModel extends RatingEntity {
-  const RatingModel({required super.rate, required super.count});
+class RatingModel extends Equatable {
+  final double rate;
+  final int count;
+
+  const RatingModel({required this.rate, required this.count});
+
   factory RatingModel.fromJson(Map<String, dynamic> json) {
     return RatingModel(
-      rate:
-          (json['rate'] is int)
-              ? (json['rate'] as int).toDouble()
-              : json['rate'],
+      rate: (json['rate'] as num).toDouble(),
       count: json['count'],
     );
   }
@@ -15,4 +16,7 @@ class RatingModel extends RatingEntity {
   Map<String, dynamic> toJson() {
     return {'rate': rate, 'count': count};
   }
+
+  @override
+  List<Object?> get props => [rate, count];
 }

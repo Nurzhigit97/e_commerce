@@ -1,10 +1,10 @@
-import 'package:e_commerce/features/product/domain/entities/product_entity.dart';
+import 'package:e_commerce/features/product/data/models/product_model.dart';
 import 'package:e_commerce/features/product/presentation/widgets/product_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.product});
-  final ProductEntity product;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,10 @@
-import 'package:e_commerce/features/cart/domain/entities/cart_entity.dart';
+import 'package:e_commerce/features/cart/data/models/cart_model.dart';
 import 'package:flutter/material.dart';
 
 class CartCard extends StatelessWidget {
   const CartCard({super.key, required this.cart});
 
-  final CartEntity cart;
+  final CartModel cart;
 
   @override
   Widget build(BuildContext context) {

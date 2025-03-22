@@ -1,12 +1,17 @@
-import 'package:e_commerce/features/cart/domain/entities/cart_entity.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:e_commerce/features/cart/data/models/cart_model.dart';
 
-part 'cart_state.freezed.dart';
+sealed class CartState {}
 
-@freezed
-class CartState with _$CartState {
-  const factory CartState.initial() = _Initial;
-  const factory CartState.loading() = _Loading;
-  const factory CartState.loaded({required List<CartEntity> cart}) = _Loaded;
-  const factory CartState.error({required String message}) = _Error;
+class CartInitial extends CartState {}
+
+class CartLoading extends CartState {}
+
+class CartLoaded extends CartState {
+  final List<CartModel> cart;
+  CartLoaded({required this.cart});
+}
+
+class CartError extends CartState {
+  final String message;
+  CartError({required this.message});
 }

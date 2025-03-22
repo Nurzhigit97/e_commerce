@@ -5,6 +5,6 @@ import 'package:e_commerce/shared/core/utils/injections.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await initInjections();
+  await initDependencies();
   runApp(const App());
 }

@@ -1,5 +1,4 @@
 import 'package:e_commerce/shared/core/resources/blocs/navigation/cubit/navigation_cubit.dart';
-import 'package:e_commerce/shared/core/utils/injections.dart';
 import 'package:e_commerce/shared/routes/app_routes.dart';
 import 'package:e_commerce/shared/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => sl<NavigationCubit>())],
+      providers: [BlocProvider(create: (context) => NavigationCubit())],
       child: MaterialApp.router(
         title: 'E-Commerce',
         routerDelegate: _appRouter.delegate(),

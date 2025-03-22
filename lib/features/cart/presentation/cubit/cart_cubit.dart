@@ -1,31 +1,15 @@
-import 'package:e_commerce/features/cart/domain/usecases/get_carts_usecase.dart';
+import 'package:e_commerce/features/cart/data/datasources/remote_cart_datasource.dart';
 import 'package:e_commerce/features/cart/presentation/cubit/cart_state.dart';
-import 'package:e_commerce/shared/core/usecase/usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartCubit extends Cubit<CartState> {
-  final GetCartsUseCase _getCartsUseCase;
+  final CartRemoteDataSource _cartRemoteDataSource;
 
-  CartCubit(this._getCartsUseCase) : super(const CartState.initial());
+  CartCubit(this._cartRemoteDataSource) : super(CartInitial());
 
   Future<void> getCarts() async {
-    emit(const CartState.loading());
-    final result = await _getCartsUseCase(NoParams());
-
-    result.fold(
-      (success) => emit(CartState.loaded(cart: success)),
-      (failure) => emit(CartState.error(message: failure)),
-    );
-  }
-
-  //search cart by title
-  Future<void> searchCartByTitle(String title) async {
-    emit(const CartState.loading());
-    final result = await _getCartsUseCase(NoParams());
-
-    result.fold(
-      (success) => emit(CartState.loaded(cart: success)),
-      (failure) => emit(CartState.error(message: failure)),
-    );
+    emit(CartLoading());
+    final result = await _cartRemoteDataSource.getCarts();
+    emit(CartLoaded(cart: result));
   }
 }

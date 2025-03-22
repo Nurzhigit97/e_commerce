@@ -1,28 +1,33 @@
 import 'package:e_commerce/features/product/data/models/rating_model.dart';
-import 'package:e_commerce/features/product/domain/entities/product_entity.dart';
+import 'package:equatable/equatable.dart';
 
-class ProductModel extends ProductEntity {
+class ProductModel extends Equatable {
+  final int id;
+  final String title;
+  final double? price;
+  final String description;
+  final String category;
+  final String image;
+  final RatingModel rating;
+
   const ProductModel({
-    required super.id,
-    required super.title,
-    required super.description,
-    required super.category,
-    required super.image,
-    required super.price,
-    required super.rating,
+    required this.id,
+    required this.title,
+    required this.price,
+    required this.description,
+    required this.category,
+    required this.image,
+    required this.rating,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: json['id'],
       title: json['title'],
+      price: (json['price'] as num?)?.toDouble(),
       description: json['description'],
       category: json['category'],
       image: json['image'],
-      price:
-          (json['price'] is int)
-              ? (json['price'] as int).toDouble()
-              : json['price'],
       rating: RatingModel.fromJson(json['rating']),
     );
   }
@@ -35,7 +40,18 @@ class ProductModel extends ProductEntity {
       'category': category,
       'image': image,
       'price': price,
-      'rating': rating,
+      'rating': rating.toJson(),
     };
   }
+
+  @override
+  List<Object?> get props => [
+    id,
+    title,
+    description,
+    category,
+    image,
+    price,
+    rating,
+  ];
 }

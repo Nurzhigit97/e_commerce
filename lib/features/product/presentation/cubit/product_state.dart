@@ -1,16 +1,20 @@
-import 'package:e_commerce/features/product/domain/entities/product_entity.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:e_commerce/features/product/data/models/product_model.dart';
 
-part 'product_state.freezed.dart';
+sealed class ProductState {}
 
-@freezed
-class ProductState with _$ProductState {
-  const factory ProductState.initial() = _Initial;
-  const factory ProductState.loading() = _Loading;
-  const factory ProductState.loaded({
-    required List<ProductEntity> products,
-    String? selectedCategory,
-  }) = _Loaded;
-  const factory ProductState.error(String message) = _Error;
-  const factory ProductState.empty() = _Empty;
+class ProductInitial extends ProductState {}
+
+class ProductLoading extends ProductState {}
+
+class ProductLoaded extends ProductState {
+  final List<ProductModel> products;
+  final String? selectedCategory;
+
+  ProductLoaded({required this.products, this.selectedCategory});
+}
+
+class ProductError extends ProductState {
+  final String message;
+
+  ProductError({required this.message});
 }

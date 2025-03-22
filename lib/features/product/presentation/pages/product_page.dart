@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:e_commerce/features/product/domain/usecases/get_products_usecase.dart';
+import 'package:e_commerce/features/product/data/datasources/remote_product_datasource.dart';
 import 'package:e_commerce/features/product/presentation/cubit/product_cubit.dart';
 import 'package:e_commerce/features/product/presentation/cubit/product_state.dart';
 import 'package:e_commerce/features/product/presentation/widgets/category_list.dart';
 import 'package:e_commerce/features/product/presentation/widgets/product_card.dart';
+import 'package:e_commerce/shared/core/network/dio_network.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_error_widget.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_input_widget.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_loader_widget.dart';
-import 'package:e_commerce/shared/core/utils/injections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,7 +19,10 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => ProductCubit(sl<GetProductsUseCase>())..getProducts(),
+        create:
+            (_) =>
+                ProductCubit(ProductRemoteDataSource(DioNetwork.dio))
+                  ..getProducts(),
         child: const ProductView(),
       ),
     );
@@ -49,17 +52,19 @@ class ProductView extends StatelessWidget {
                 const SizedBox(height: 12),
                 BlocBuilder<ProductCubit, ProductState>(
                   builder: (context, state) {
-                    return state.maybeWhen(
-                      loaded:
-                          (products, selectedCategory) => CategoryList(
-                            categories: context.read<ProductCubit>().categories,
-                            selectedCategory: selectedCategory,
-                            onCategorySelected:
-                                (category) => context
-                                    .read<ProductCubit>()
-                                    .selectCategory(category),
-                          ),
-                      orElse: () => const SizedBox(),
+                    if (state is ProductLoading) {
+                      return const AppLoaderWidget();
+                    }
+                    return CategoryList(
+                      categories: context.read<ProductCubit>().categories,
+                      selectedCategory:
+                          state is ProductLoaded
+                              ? state.selectedCategory
+                              : null,
+                      onCategorySelected:
+                          (category) => context
+                              .read<ProductCubit>()
+                              .selectCategory(category),
                     );
                   },
                 ),
@@ -69,30 +74,28 @@ class ProductView extends StatelessWidget {
           const SliverToBoxAdapter(child: SizedBox(height: 10)),
           BlocBuilder<ProductCubit, ProductState>(
             builder: (context, state) {
-              return state.maybeWhen(
-                loading:
-                    () => const SliverToBoxAdapter(child: AppLoaderWidget()),
-                loaded:
-                    (products, selectedCategory) => SliverGrid(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) =>
-                            ProductCard(product: products[index]),
-                        childCount: products.length,
-                      ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.9,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                          ),
-                    ),
-                error:
-                    (message) => SliverToBoxAdapter(
-                      child: AppErrorWidget(message: message),
-                    ),
-                orElse: () => const SliverToBoxAdapter(child: SizedBox()),
-              );
+              if (state is ProductLoading) {
+                return const SliverToBoxAdapter(child: AppLoaderWidget());
+              } else if (state is ProductError) {
+                return SliverToBoxAdapter(
+                  child: AppErrorWidget(message: state.message),
+                );
+              } else if (state is ProductLoaded) {
+                return SliverGrid(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) =>
+                        ProductCard(product: state.products[index]),
+                    childCount: state.products.length,
+                  ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.9,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                  ),
+                );
+              }
+              return const SliverToBoxAdapter(child: SizedBox());
             },
           ),
         ],

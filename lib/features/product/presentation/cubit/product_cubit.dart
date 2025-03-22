@@ -1,26 +1,27 @@
 import 'dart:async';
-import 'package:e_commerce/features/product/domain/entities/product_entity.dart';
-import 'package:e_commerce/features/product/domain/usecases/get_products_usecase.dart';
-import 'package:e_commerce/shared/core/usecase/usecase.dart';
+import 'package:e_commerce/features/product/data/datasources/remote_product_datasource.dart';
+import 'package:e_commerce/features/product/data/models/product_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'product_state.dart';
 
 class ProductCubit extends Cubit<ProductState> {
-  final GetProductsUseCase _getProductsUseCase;
+  final ProductRemoteDataSource _productRemoteDataSource;
   Timer? _debounce;
-  List<ProductEntity> _allProducts = [];
+  List<ProductModel> _allProducts = [];
   String? _selectedCategory;
   String _searchQuery = '';
 
-  ProductCubit(this._getProductsUseCase) : super(const ProductState.initial());
+  ProductCubit(this._productRemoteDataSource) : super(ProductInitial());
 
   Future<void> getProducts() async {
-    emit(const ProductState.loading());
-    final result = await _getProductsUseCase(NoParams());
-    result.fold((products) {
-      _allProducts = products;
+    emit(ProductLoading());
+    try {
+      final result = await _productRemoteDataSource.getProducts();
+      _allProducts = result;
       _filterProducts();
-    }, (error) => emit(ProductState.error(error)));
+    } catch (e) {
+      emit(ProductError(message: e.toString()));
+    }
   }
 
   List<String> get categories =>
@@ -62,7 +63,7 @@ class ProductCubit extends Cubit<ProductState> {
     }
 
     emit(
-      ProductState.loaded(
+      ProductLoaded(
         products: filteredProducts,
         selectedCategory: _selectedCategory,
       ),

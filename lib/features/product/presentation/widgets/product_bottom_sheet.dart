@@ -1,7 +1,7 @@
-import 'package:e_commerce/features/product/domain/entities/product_entity.dart';
+import 'package:e_commerce/features/product/data/models/product_model.dart';
 import 'package:flutter/material.dart';
 
-void showProductDetails(BuildContext context, ProductEntity product) {
+void showProductDetails(BuildContext context, ProductModel product) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -11,7 +11,7 @@ void showProductDetails(BuildContext context, ProductEntity product) {
 
 class ProductBottomSheet extends StatelessWidget {
   const ProductBottomSheet({super.key, required this.product});
-  final ProductEntity product;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
