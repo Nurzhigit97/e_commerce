@@ -17,4 +17,15 @@ class CartCubit extends Cubit<CartState> {
       (failure) => emit(CartState.error(message: failure)),
     );
   }
+
+  //search cart by title
+  Future<void> searchCartByTitle(String title) async {
+    emit(const CartState.loading());
+    final result = await _getCartsUseCase(NoParams());
+
+    result.fold(
+      (success) => emit(CartState.loaded(cart: success)),
+      (failure) => emit(CartState.error(message: failure)),
+    );
+  }
 }
