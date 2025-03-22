@@ -1,20 +1,21 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/base_state.dart';
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
 
-extension EmitterExtensions<T extends BaseState> on Emitter<T> {
-  Future<void> handle<D>({
-    required Future<D> Function() action,
-    required T Function(D data) onData,
-    required T Function() onLoading,
-    required T Function(String error) onError,
-  }) async {
+extension Handle on Emitter {
+  Future request<T>(
+    Future<T> func,
+    void Function(T data) onData,
+    void Function() onPreProcessing,
+    void Function(Object error, StackTrace stackTrace) onError,
+  ) async {
     try {
-      call(onLoading());
-      final data = await action();
-      call(onData(data));
-    } on DioException catch (e) {
-      call(onError(e.message ?? 'Unknown error'));
+      onPreProcessing.call();
+      final data = await func();
+      onData(data);
+    } on Object catch (e) {
+      Error.safeToString(e);
+      onError(e, StackTrace.current);
+      rethrow;
     }
   }
 }

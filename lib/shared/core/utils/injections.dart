@@ -1,3 +1,5 @@
+import 'package:e_commerce/features/cart/cart_injection.dart';
+import 'package:e_commerce/features/product/product_injection.dart';
 import 'package:get_it/get_it.dart';
 import 'package:e_commerce/shared/core/network/dio_network.dart';
 import 'package:e_commerce/shared/core/utils/log/app_logger.dart';
@@ -9,8 +11,8 @@ Future<void> initInjections() async {
   await initDioInjections();
 
   // Catalog injections
-  // await catalogInjection();
-  // await cartInjection();
+  await productInjection();
+  await cartInjection();
 }
 
 initSharedPrefsInjections() async {

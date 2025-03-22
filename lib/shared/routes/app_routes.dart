@@ -8,8 +8,9 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     AutoRoute(
       page: HomeNavigator.page,
+      initial: true,
       children: [
-        AutoRoute(page: CatalogRoute.page, initial: true),
+        AutoRoute(page: ProductRoute.page, initial: true),
         AutoRoute(page: CartRoute.page),
       ],
     ),

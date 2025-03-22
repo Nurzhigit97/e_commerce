@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:e_commerce/features/cart/presentation/pages/cart_page.dart';
-import 'package:e_commerce/features/catalog/presentation/pages/catalog_page.dart';
+import 'package:e_commerce/features/product/presentation/pages/product_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:e_commerce/shared/core/resources/blocs/navigation/cubit/navigation_cubit.dart';
@@ -11,13 +11,13 @@ class HomeNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pages = [const CatalogPage(), const CartPage()];
+    final pages = [const ProductPage(), const CartPage()];
     return BlocProvider(
       create: (_) => NavigationCubit(),
       child: BlocBuilder<NavigationCubit, int>(
         builder: (context, currentIndex) {
           return Scaffold(
-            body: pages[currentIndex],
+            body: IndexedStack(index: currentIndex, children: pages),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: currentIndex,
               onTap: (index) => context.read<NavigationCubit>().setTab(index),
@@ -25,7 +25,7 @@ class HomeNavigator extends StatelessWidget {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_outlined),
                   activeIcon: Icon(Icons.home),
-                  label: 'Catalog',
+                  label: 'Products',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.shopping_cart_outlined),

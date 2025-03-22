@@ -1,8 +1,9 @@
-import 'package:e_commerce/shared/core/resources/data/data_state.dart';
+import 'package:dartz/dartz.dart';
+
 import 'package:equatable/equatable.dart';
 
 abstract class UseCase<Type, Params> {
-  Future<DataState<Type>> call(Params params);
+  Future<Either<Type, String>> call(Params params);
 }
 
 class NoParams extends Equatable {
