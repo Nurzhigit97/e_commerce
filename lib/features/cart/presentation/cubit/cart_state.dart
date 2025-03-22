@@ -1,21 +1,12 @@
-part of 'cart_cubit.dart';
+import 'package:e_commerce/features/cart/domain/entities/cart_entity.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class CartState extends Equatable {
-  const CartState();
+part 'cart_state.freezed.dart';
 
-  @override
-  List<Object> get props => [];
-}
-
-class CartInitial extends CartState {}
-
-class CartLoading extends CartState {}
-
-class CartLoaded extends CartState {
-  final Cart cart;
-
-  const CartLoaded({required this.cart});
-
-  @override
-  List<Object> get props => [cart];
+@freezed
+class CartState with _$CartState {
+  const factory CartState.initial() = _Initial;
+  const factory CartState.loading() = _Loading;
+  const factory CartState.loaded({required List<CartEntity> cart}) = _Loaded;
+  const factory CartState.error({required String message}) = _Error;
 }
