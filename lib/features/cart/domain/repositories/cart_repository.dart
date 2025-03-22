@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 
 abstract class CartRepository {
   Future<Either<List<CartEntity>, String>> getCarts();
-  Future<Either<void, String>> addToCart(ProductModel ProductModel);
+  Future<Either<void, String>> addToCart(ProductModel product);
   Future<Either<void, String>> removeFromCart(ProductModel product);
   Future<Either<void, String>> deleteCart();
 }

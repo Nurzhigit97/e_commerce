@@ -9,4 +9,5 @@ class ProductState with _$ProductState {
   const factory ProductState.loading() = _Loading;
   const factory ProductState.loaded(List<ProductEntity> products) = _Loaded;
   const factory ProductState.error(String message) = _Error;
+  const factory ProductState.empty() = _Empty;
 }
