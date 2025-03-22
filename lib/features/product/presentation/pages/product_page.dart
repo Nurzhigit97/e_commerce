@@ -38,7 +38,6 @@ class ProductView extends StatelessWidget {
           SliverToBoxAdapter(
             child: AppInputWidget(
               filledColor: Theme.of(context).colorScheme.surface,
-              hintColor: Theme.of(context).colorScheme.onSurface,
               hintText: 'Поиск...',
               onChanged:
                   (value) => context.read<ProductCubit>().searchProducts(value),
