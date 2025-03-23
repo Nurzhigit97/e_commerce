@@ -9,7 +9,7 @@ class ProductModel extends Equatable {
   final String category;
   final String image;
   final RatingModel rating;
-
+  final int quantity;
   const ProductModel({
     required this.id,
     required this.title,
@@ -18,6 +18,7 @@ class ProductModel extends Equatable {
     required this.category,
     required this.image,
     required this.rating,
+    required this.quantity,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +30,7 @@ class ProductModel extends Equatable {
       category: json['category'],
       image: json['image'],
       rating: RatingModel.fromJson(json['rating']),
+      quantity: json['quantity'] ?? 0,
     );
   }
 
@@ -41,7 +43,21 @@ class ProductModel extends Equatable {
       'image': image,
       'price': price,
       'rating': rating.toJson(),
+      'quantity': quantity,
     };
+  }
+
+  ProductModel copyWith({int? quantity}) {
+    return ProductModel(
+      id: id,
+      title: title,
+      price: price,
+      description: description,
+      category: category,
+      image: image,
+      rating: rating,
+      quantity: quantity ?? this.quantity,
+    );
   }
 
   @override
@@ -53,5 +69,6 @@ class ProductModel extends Equatable {
     image,
     price,
     rating,
+    quantity,
   ];
 }

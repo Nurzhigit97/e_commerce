@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce/features/cart/data/datasource/remote_cart_datasource.dart';
-import 'package:e_commerce/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:e_commerce/features/product/data/datasources/local_product_datasource.dart';
 import 'package:e_commerce/features/product/data/datasources/remote_product_datasource.dart';
+import 'package:e_commerce/features/product/presentation/cubit/cart/cart_bloc.dart';
 import 'package:e_commerce/features/product/presentation/cubit/product_cubit.dart';
 import 'package:e_commerce/shared/core/network/dio_network.dart';
 import 'package:e_commerce/shared/core/utils/log/app_logger.dart';
@@ -15,9 +15,8 @@ class ServiceLocator {
   late final Dio _dio;
   late final SharedPreferences _prefs;
   late final ProductRemoteDataSource _productDataSource;
-  late final CartRemoteDataSource _cartDataSource;
   late final ProductCubit _productCubit;
-  late final CartCubit _cartCubit;
+  late final CartBloc _cartBloc;
 
   Future<void> init() async {
     // Core
@@ -29,15 +28,14 @@ class ServiceLocator {
 
     // Data Sources
     _productDataSource = ProductRemoteDataSource(_dio);
-    _cartDataSource = CartRemoteDataSource(_dio);
 
     // Cubits
     _productCubit = ProductCubit(_productDataSource);
-    _cartCubit = CartCubit(_cartDataSource);
+    _cartBloc = CartBloc(repository: LocalProductDataSource(_prefs));
   }
 
   // Getters
   ProductCubit get productCubit => _productCubit;
-  CartCubit get cartCubit => _cartCubit;
   SharedPreferences get prefs => _prefs;
+  CartBloc get cartBloc => _cartBloc;
 }
