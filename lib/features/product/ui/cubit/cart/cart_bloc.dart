@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:e_commerce/features/product/data/datasources/local_product_datasource.dart';
+import 'package:e_commerce/features/product/data/product_service/local_product_service.dart';
 import 'package:e_commerce/features/product/data/models/product_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

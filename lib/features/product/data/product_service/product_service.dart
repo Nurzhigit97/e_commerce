@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce/features/product/data/models/product_model.dart';
 
-class ProductRemoteDataSource {
+class ProductService {
   final Dio _dio;
 
-  ProductRemoteDataSource(this._dio);
+  ProductService(this._dio);
 
   Future<List<ProductModel>> getProducts() async {
     try {

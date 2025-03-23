@@ -1,22 +1,22 @@
 import 'dart:async';
-import 'package:e_commerce/features/product/data/datasources/remote_product_datasource.dart';
+import 'package:e_commerce/features/product/data/product_service/product_service.dart';
 import 'package:e_commerce/features/product/data/models/product_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'product_state.dart';
 
 class ProductCubit extends Cubit<ProductState> {
-  final ProductRemoteDataSource _productRemoteDataSource;
+  final ProductService _productService;
   Timer? _debounce;
   List<ProductModel> _allProducts = [];
   String? _selectedCategory;
   String _searchQuery = '';
 
-  ProductCubit(this._productRemoteDataSource) : super(ProductInitial());
+  ProductCubit(this._productService) : super(ProductInitial());
 
   Future<void> getProducts() async {
     emit(ProductLoading());
     try {
-      final result = await _productRemoteDataSource.getProducts();
+      final result = await _productService.getProducts();
       _allProducts = result;
       _filterProducts();
     } catch (e) {
