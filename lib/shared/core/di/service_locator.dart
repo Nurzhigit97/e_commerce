@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce/features/product/data/product_service/local_product_service.dart';
 import 'package:e_commerce/features/product/data/product_service/product_service.dart';
-import 'package:e_commerce/features/product/ui/cubit/cart/cart_bloc.dart';
-import 'package:e_commerce/features/product/ui/cubit/product_cubit.dart';
+import 'package:e_commerce/features/product/ui/bloc/cart/cart_bloc.dart';
+import 'package:e_commerce/features/product/ui/bloc/product/product_cubit.dart';
 import 'package:e_commerce/shared/core/network/dio_network.dart';
 import 'package:e_commerce/shared/core/utils/log/app_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
