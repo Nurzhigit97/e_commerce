@@ -1,10 +1,10 @@
-import 'package:e_commerce/features/product/data/models/product_model.dart';
-import 'package:e_commerce/features/product/ui/bloc/cart/cart_bloc.dart';
+import 'package:e_commerce/features/cart/data/models/cart_model.dart';
+import 'package:e_commerce/features/cart/ui/bloc/cart/cart_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartCard extends StatelessWidget {
-  final ProductModel item;
+  final CartModel item;
 
   const CartCard({super.key, required this.item});
 
@@ -22,13 +22,13 @@ class CartCard extends StatelessWidget {
       onDismissed: (_) {
         context.read<CartBloc>().add(RemoveCartItem(item.id.toString()));
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${item.title} удалён из корзины')),
+          SnackBar(content: Text('${item.product.title} удалён из корзины')),
         );
       },
       child: ListTile(
-        leading: Image.network(item.image),
-        title: Text(item.title),
-        subtitle: Text('\$${item.price?.toStringAsFixed(2)}'),
+        leading: Image.network(item.product.image),
+        title: Text(item.product.title),
+        subtitle: Text('\$${item.product.price?.toStringAsFixed(2)}'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -38,7 +38,11 @@ class CartCard extends StatelessWidget {
                 if (item.quantity > 1) {
                   context.read<CartBloc>().add(
                     MinusCartItemQuantity(
-                      item.copyWith(quantity: item.quantity - 1),
+                      CartModel(
+                        id: item.id,
+                        product: item.product,
+                        quantity: item.quantity - 1,
+                      ),
                     ),
                   );
                 } else {
@@ -54,7 +58,11 @@ class CartCard extends StatelessWidget {
               onPressed: () {
                 context.read<CartBloc>().add(
                   PlusCartItemQuantity(
-                    item.copyWith(quantity: item.quantity + 1),
+                    CartModel(
+                      id: item.id,
+                      product: item.product,
+                      quantity: item.quantity + 1,
+                    ),
                   ),
                 );
               },

@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:e_commerce/features/product/data/services/local_product_service.dart';
-import 'package:e_commerce/features/product/data/models/product_model.dart';
+import 'package:e_commerce/features/cart/data/models/cart_model.dart';
+import 'package:e_commerce/features/cart/data/services/local_product_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  final LocalProductDataSource repository;
+  final LocalCartDataSource repository;
 
   CartBloc({required this.repository}) : super(CartInitial()) {
     on<LoadCart>(_onLoadCart);

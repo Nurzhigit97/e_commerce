@@ -7,11 +7,14 @@ class CartInitial extends CartState {}
 class CartLoading extends CartState {}
 
 class CartLoaded extends CartState {
-  final List<ProductModel> items;
+  final List<CartModel> items;
   final double totalPrice;
 
   CartLoaded(this.items)
-    : totalPrice = items.fold(0, (total, item) => total + (item.price ?? 0));
+    : totalPrice = items.fold(
+        0,
+        (total, item) => total + (item.product.price ?? 0),
+      );
 }
 
 class CartError extends CartState {
@@ -23,7 +26,7 @@ class CartError extends CartState {
 class AddCartItemLoading extends CartState {}
 
 class AddCartItemSuccess extends CartState {
-  final ProductModel item;
+  final CartModel item;
   AddCartItemSuccess(this.item);
 }
 
@@ -31,15 +34,6 @@ class AddCartItemSuccess extends CartState {
 class AddCartItemError extends CartState {
   final String message;
   AddCartItemError(this.message);
-}
-
-class RemoveCartItemLoading extends CartState {}
-
-class RemoveCartItemSuccess extends CartState {}
-
-class RemoveCartItemError extends CartState {
-  final String message;
-  RemoveCartItemError(this.message);
 }
 
 // update cart item quantity loading

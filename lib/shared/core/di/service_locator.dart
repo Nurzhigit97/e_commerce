@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce/features/product/data/services/local_product_service.dart';
+import 'package:e_commerce/features/cart/data/services/local_product_service.dart';
+import 'package:e_commerce/features/cart/ui/bloc/cart/cart_bloc.dart';
 import 'package:e_commerce/features/product/data/services/product_service.dart';
-import 'package:e_commerce/features/product/ui/bloc/cart/cart_bloc.dart';
 import 'package:e_commerce/features/product/ui/bloc/product/product_cubit.dart';
 import 'package:e_commerce/shared/core/network/dio_network.dart';
 import 'package:e_commerce/shared/core/utils/log/app_logger.dart';
@@ -31,7 +31,7 @@ class ServiceLocator {
 
     // Cubits
     _productCubit = ProductCubit(_productService);
-    _cartBloc = CartBloc(repository: LocalProductDataSource(_prefs));
+    _cartBloc = CartBloc(repository: LocalCartDataSource(_prefs));
   }
 
   // Getters

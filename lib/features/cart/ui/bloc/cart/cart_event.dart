@@ -5,7 +5,7 @@ sealed class CartEvent {}
 class LoadCart extends CartEvent {}
 
 class AddCartItem extends CartEvent {
-  final ProductModel item;
+  final CartModel item;
   AddCartItem(this.item);
 }
 
@@ -15,11 +15,11 @@ class RemoveCartItem extends CartEvent {
 }
 
 class PlusCartItemQuantity extends CartEvent {
-  final ProductModel item;
+  final CartModel item;
   PlusCartItemQuantity(this.item);
 }
 
 class MinusCartItemQuantity extends CartEvent {
-  final ProductModel item;
+  final CartModel item;
   MinusCartItemQuantity(this.item);
 }

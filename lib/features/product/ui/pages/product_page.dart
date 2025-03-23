@@ -1,4 +1,4 @@
-import 'package:e_commerce/features/product/ui/bloc/cart/cart_bloc.dart';
+import 'package:e_commerce/features/cart/ui/bloc/cart/cart_bloc.dart';
 import 'package:e_commerce/features/product/ui/bloc/product/product_cubit.dart';
 import 'package:e_commerce/features/product/ui/bloc/product/product_state.dart';
 import 'package:e_commerce/features/product/ui/widgets/category_list.dart';

@@ -1,5 +1,6 @@
+import 'package:e_commerce/features/cart/data/models/cart_model.dart';
+import 'package:e_commerce/features/cart/ui/bloc/cart/cart_bloc.dart';
 import 'package:e_commerce/features/product/data/models/product_model.dart';
-import 'package:e_commerce/features/product/ui/bloc/cart/cart_bloc.dart';
 import 'package:e_commerce/features/product/ui/widgets/product_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,7 +49,15 @@ class ProductCard extends StatelessWidget {
                         RemoveCartItem(product.id.toString()),
                       );
                     } else {
-                      context.read<CartBloc>().add(AddCartItem(product));
+                      context.read<CartBloc>().add(
+                        AddCartItem(
+                          CartModel(
+                            id: product.id,
+                            product: product,
+                            quantity: 0,
+                          ),
+                        ),
+                      );
                     }
                   },
                   icon: BlocBuilder<CartBloc, CartState>(
