@@ -1,4 +1,4 @@
-import 'package:e_commerce/features/product/ui/cubit/cart/cart_bloc.dart';
+import 'package:e_commerce/features/product/ui/bloc/cart/cart_bloc.dart';
 import 'package:e_commerce/features/product/ui/widgets/cart_card.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_loader_widget.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<CartBloc>().add(LoadCart());
     return Scaffold(
       appBar: AppBar(title: const Text('Корзина'), centerTitle: true),
       body: BlocBuilder<CartBloc, CartState>(
@@ -30,8 +31,7 @@ class CartPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Total: \$${state.items.fold(0.0, (sum, item) => sum + (item.price ?? 0) * (item.quantity)).toStringAsFixed(2)}',
-
+                    'Total: ₽ ${state.items.fold(0.0, (sum, item) => sum + (item.price ?? 0) * (item.quantity)).toStringAsFixed(1)}',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

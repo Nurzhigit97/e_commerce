@@ -1,6 +1,6 @@
-import 'package:e_commerce/features/product/ui/cubit/cart/cart_bloc.dart';
-import 'package:e_commerce/features/product/ui/cubit/product_cubit.dart';
-import 'package:e_commerce/features/product/ui/cubit/product_state.dart';
+import 'package:e_commerce/features/product/ui/bloc/cart/cart_bloc.dart';
+import 'package:e_commerce/features/product/ui/bloc/product/product_cubit.dart';
+import 'package:e_commerce/features/product/ui/bloc/product/product_state.dart';
 import 'package:e_commerce/features/product/ui/widgets/category_list.dart';
 import 'package:e_commerce/features/product/ui/widgets/product_card.dart';
 import 'package:e_commerce/shared/core/resources/widgets/app_error_widget.dart';
@@ -26,30 +26,30 @@ class ProductPage extends StatelessWidget {
             );
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: CustomScrollView(
-            slivers: [
-              const SliverAppBar(
-                title: Text('Товары'),
-                floating: true,
-                centerTitle: true,
-              ),
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    AppInputWidget(
-                      filledColor: Theme.of(context).colorScheme.surface,
-                      hintText: 'Поиск...',
-                      onChanged:
-                          (value) => context
-                              .read<ProductCubit>()
-                              .searchProducts(value),
-                    ),
-                    const SizedBox(height: 12),
-                    BlocBuilder<ProductCubit, ProductState>(
-                      builder: (context, state) {
-                        return CategoryList(
+        child: BlocBuilder<ProductCubit, ProductState>(
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: CustomScrollView(
+                slivers: [
+                  const SliverAppBar(
+                    title: Text('Товары'),
+                    floating: true,
+                    centerTitle: true,
+                  ),
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        AppInputWidget(
+                          filledColor: Theme.of(context).colorScheme.surface,
+                          hintText: 'Поиск...',
+                          onChanged:
+                              (value) => context
+                                  .read<ProductCubit>()
+                                  .searchProducts(value),
+                        ),
+                        const SizedBox(height: 12),
+                        CategoryList(
                           categories: context.read<ProductCubit>().categories,
                           selectedCategory:
                               state is ProductLoaded
@@ -59,16 +59,12 @@ class ProductPage extends StatelessWidget {
                               (category) => context
                                   .read<ProductCubit>()
                                   .selectCategory(category),
-                        );
-                      },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 10)),
-              BlocBuilder<ProductCubit, ProductState>(
-                builder: (context, state) {
-                  return switch (state) {
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 10)),
+                  switch (state) {
                     ProductLoading() => const SliverToBoxAdapter(
                       child: AppLoaderWidget(),
                     ),
@@ -90,11 +86,11 @@ class ProductPage extends StatelessWidget {
                           ),
                     ),
                     _ => const SliverToBoxAdapter(child: SizedBox()),
-                  };
-                },
+                  },
+                ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

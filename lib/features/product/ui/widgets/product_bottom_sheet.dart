@@ -5,6 +5,7 @@ void showProductDetails(BuildContext context, ProductModel product) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
     builder: (context) => ProductBottomSheet(product: product),
   );
 }
@@ -18,9 +19,9 @@ class ProductBottomSheet extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: const BorderRadius.horizontal(
-          left: Radius.circular(16),
-          right: Radius.circular(16),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
         ),
       ),
       child: Padding(
@@ -66,9 +67,6 @@ class ProductBottomSheet extends StatelessWidget {
               product.description,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            const SizedBox(height: 24),
-
-            const SizedBox(height: 16),
           ],
         ),
       ),
