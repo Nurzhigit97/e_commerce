@@ -3,10 +3,10 @@ import 'package:e_commerce/features/product/ui/bloc/cart/cart_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CartItemTile extends StatelessWidget {
+class CartCard extends StatelessWidget {
   final ProductModel item;
 
-  const CartItemTile({super.key, required this.item});
+  const CartCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {

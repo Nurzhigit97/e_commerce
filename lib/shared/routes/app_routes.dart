@@ -1,5 +1,5 @@
+import 'package:e_commerce/features/cart/ui/pages/cart_page.dart';
 import 'package:e_commerce/features/home_navigator.dart';
-import 'package:e_commerce/features/product/ui/pages/cart_page.dart';
 import 'package:e_commerce/features/product/ui/pages/product_page.dart';
 
 class AppRouter {
