@@ -30,7 +30,7 @@ class CartPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'Total: ₽ ${state.items.fold(0.0, (sum, item) => sum + (item.product.price ?? 0) * (item.quantity)).toStringAsFixed(1)}',
+                    'Сумма: ₽ ${state.items.fold(0.0, (sum, item) => sum + (item.product.price ?? 0) * (item.quantity)).toStringAsFixed(1)}',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
