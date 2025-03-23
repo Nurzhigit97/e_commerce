@@ -1,4 +1,3 @@
-import 'package:e_commerce/features/product/presentation/cubit/cart/cart_bloc.dart';
 import 'package:e_commerce/shared/core/di/service_locator.dart';
 import 'package:e_commerce/shared/core/resources/blocs/navigation/cubit/navigation_cubit.dart';
 import 'package:e_commerce/shared/routes/app_routes.dart';
@@ -15,12 +14,8 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => NavigationCubit()),
-        BlocProvider(
-          create: (context) => ServiceLocator().productCubit..getProducts(),
-        ),
-        BlocProvider(
-          create: (context) => ServiceLocator().cartBloc..add(LoadCart()),
-        ),
+        BlocProvider(create: (context) => ServiceLocator().productCubit),
+        BlocProvider(create: (context) => ServiceLocator().cartBloc),
       ],
       child: MaterialApp(
         title: 'E-Commerce',

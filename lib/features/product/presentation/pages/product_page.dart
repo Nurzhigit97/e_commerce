@@ -14,6 +14,7 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<ProductCubit>().getProducts();
     return Scaffold(
       body: BlocListener<CartBloc, CartState>(
         listener: (context, state) {
@@ -29,7 +30,11 @@ class ProductPage extends StatelessWidget {
           padding: const EdgeInsets.all(12.0),
           child: CustomScrollView(
             slivers: [
-              const SliverAppBar(title: Text('Товары'), floating: true),
+              const SliverAppBar(
+                title: Text('Товары'),
+                floating: true,
+                centerTitle: true,
+              ),
               SliverToBoxAdapter(
                 child: Column(
                   children: [
